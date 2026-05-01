@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K&amp;A Engineering</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+  <script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        slate: { 900: '#0F172A', 50: '#F8FAFC' },
+        accent: '#3B82F6',
+        muted: '#E5E7EB',
+        soft: '#CBD5F5'
+      },
+      fontFamily: {
+        heading: ['Space Mono', 'monospace'],
+        body: ['DM Sans', 'system-ui', 'sans-serif']
+      }
+    }
+  }
+}
+</script>
+  <style>
+html { scroll-behavior: smooth; }
+html, body { height: 100%; margin: 0; }
+
+.flip-card { perspective: 1000px; }
+.flip-inner { transition: transform 0.6s cubic-bezier(0.4,0,0.2,1); transform-style: preserve-3d; }
+.flip-card:hover .flip-inner { transform: rotateY(180deg); }
+.flip-front, .flip-back { backface-visibility: hidden; }
+.flip-back { transform: rotateY(180deg); }
+
+.modal-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+.modal-overlay.active { opacity: 1; pointer-events: auto; }
+.modal-content { transform: scale(0.9) translateY(20px); opacity: 0; transition: all 0.35s cubic-bezier(0.4,0,0.2,1); }
+.modal-overlay.active .modal-content { transform: scale(1) translateY(0); opacity: 1; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+.anim-up { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+.anim-d1 { animation-delay: 0.1s; }
+.anim-d2 { animation-delay: 0.2s; }
+.anim-d3 { animation-delay: 0.3s; }
+.anim-d4 { animation-delay: 0.4s; }
+
+@keyframes pulse-glow { 0%,100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.3); } 50% { box-shadow: 0 0 20px 4px rgba(59,130,246,0.15); } }
+.glow-pulse { animation: pulse-glow 3s infinite; }
+
+.skill-tag { transition: all 0.2s ease; }
+.skill-tag:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59,130,246,0.2); }
+
+.nav-link { position: relative; }
+.nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:#3B82F6; transition:width 0.3s ease; }
+.nav-link:hover::after { width:100%; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0F172A; }
+::-webkit-scrollbar-thumb { background: #3B82F6; border-radius: 3px; }
+</style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-slate-900 text-slate-50 font-body overflow-auto"><!-- Navbar -->
+  <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-slate-900/80 backdrop-blur-md border-b border-white/5">
+   <div class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16"><a href="#hero" class="font-heading font-bold text-lg tracking-tight" style="color:#3B82F6;">K<span class="text-slate-50">&amp;</span>A</a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium"><a href="#about" class="nav-link text-gray-300 hover:text-white transition">About</a> <a href="#projects" class="nav-link text-gray-300 hover:text-white transition">Projects</a> <a href="#skills" class="nav-link text-gray-300 hover:text-white transition">Skills</a> <a href="#contact" class="nav-link text-gray-300 hover:text-white transition">Contact</a>
+    </div><button id="mobileToggle" class="md:hidden text-gray-300 hover:text-white" aria-label="Toggle menu"> <i data-lucide="menu" style="width:24px;height:24px;"></i> </button>
+   </div>
+   <div id="mobileMenu" class="hidden md:hidden border-t border-white/5 bg-slate-900/95 backdrop-blur-md">
+    <div class="flex flex-col px-6 py-4 gap-3 text-sm font-medium"><a href="#about" class="text-gray-300 hover:text-white py-2 mob-link">About</a> <a href="#projects" class="text-gray-300 hover:text-white py-2 mob-link">Projects</a> <a href="#skills" class="text-gray-300 hover:text-white py-2 mob-link">Skills</a> <a href="#contact" class="text-gray-300 hover:text-white py-2 mob-link">Contact</a>
+    </div>
+   </div>
+  </nav><!-- Hero -->
+  <section id="hero" class="relative min-h-full flex items-center justify-center px-4 sm:px-6 overflow-hidden">
+   <div class="absolute inset-0 opacity-20" style="background: radial-gradient(ellipse at 30% 20%, #3B82F6 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, #6366f1 0%, transparent 50%);"></div>
+   <div class="absolute inset-0 opacity-[0.03]" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><rect width=%2260%22 height=%2260%22 fill=%22none%22 stroke=%22white%22 stroke-width=%220.5%22/></svg>');"></div>
+   <div class="relative text-center max-w-3xl mx-auto z-10">
+    <div class="anim-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/30 bg-accent/10 text-accent text-xs font-medium mb-8 glow-pulse"><span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span> Available for Projects
+    </div>
+    <h1 id="heroHeadline" class="anim-up anim-d1 font-heading text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight mb-6" style="color:#F8FAFC;">Full Stack Engineers<br>
+     &amp; System Builders</h1>
+    <p id="heroSubtext" class="anim-up anim-d2 text-base sm:text-lg text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">We design and build scalable systems, automation pipelines, and real-world applications focused on performance, security, and usability.</p>
+    <div class="anim-up anim-d3 flex flex-col sm:flex-row items-center justify-center gap-4"><a href="#projects" class="inline-flex items-center gap-2 px-7 py-3 rounded-lg text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-accent/25" style="background:#3B82F6;"> View Our Work <i data-lucide="arrow-right" style="width:16px;height:16px;"></i> </a> <a href="#contact" class="inline-flex items-center gap-2 px-7 py-3 rounded-lg text-sm font-semibold border border-white/15 text-gray-300 hover:text-white hover:border-white/30 transition-all duration-200 hover:scale-105"> Get In Touch </a>
+    </div>
+   </div>
+  </section><!-- About -->
+  <section id="about" class="py-20 sm:py-28 px-4 sm:px-6" style="background:#0F172A;">
+   <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16">
+     <p class="text-accent text-sm font-heading font-bold tracking-widest uppercase mb-3">Who We Are</p>
+     <h2 class="font-heading text-2xl sm:text-3xl font-bold" style="color:#F8FAFC;">Meet The Founders</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8"><!-- Kann -->
+     <div class="group rounded-2xl p-8 border border-white/5 hover:border-accent/20 transition-all duration-300 hover:shadow-xl hover:shadow-accent/5" style="background:rgba(248,250,252,0.03);">
+      <div class="flex items-center gap-4 mb-6">
+       <div class="w-14 h-14 rounded-xl flex items-center justify-center font-heading font-bold text-lg" style="background:rgba(59,130,246,0.15);color:#3B82F6;">
+        KM
+       </div>
+       <div>
+        <h3 class="font-heading font-bold text-lg" style="color:#F8FAFC;">Kann Mwandawiro</h3>
+        <p id="kannTitle" class="text-accent text-sm font-medium">Full-Stack Engineer</p>
+       </div>
+      </div>
+      <p class="text-gray-400 leading-relaxed text-sm">Full-stack engineer focused on building scalable backend systems, automation pipelines, and production-grade applications. Experienced in real-world systems including billing platforms, fintech integrations, AI-driven tools, and biometric authentication systems. Strong focus on performance, security, and system design.</p>
+      <div class="flex gap-2 mt-6"><span class="px-3 py-1 rounded-full text-xs font-medium border border-accent/20 text-accent bg-accent/5">Backend</span> <span class="px-3 py-1 rounded-full text-xs font-medium border border-accent/20 text-accent bg-accent/5">Systems</span> <span class="px-3 py-1 rounded-full text-xs font-medium border border-accent/20 text-accent bg-accent/5">Fintech</span>
+      </div>
+     </div><!-- Ann -->
+     <div class="group rounded-2xl p-8 border border-white/5 hover:border-accent/20 transition-all duration-300 hover:shadow-xl hover:shadow-accent/5" style="background:rgba(248,250,252,0.03);">
+      <div class="flex items-center gap-4 mb-6">
+       <div class="w-14 h-14 rounded-xl flex items-center justify-center font-heading font-bold text-lg" style="background:rgba(59,130,246,0.15);color:#3B82F6;">
+        AM
+       </div>
+       <div>
+        <h3 class="font-heading font-bold text-lg" style="color:#F8FAFC;">Ann Maina</h3>
+        <p id="annTitle" class="text-accent text-sm font-medium">Software Developer</p>
+       </div>
+      </div>
+      <p class="text-gray-400 leading-relaxed text-sm">Software developer specializing in clean, scalable frontend systems and intuitive user interfaces. Experienced in translating complex backend logic into efficient, user-friendly applications. Strong collaborator in full-stack development and product delivery.</p>
+      <div class="flex gap-2 mt-6"><span class="px-3 py-1 rounded-full text-xs font-medium border border-accent/20 text-accent bg-accent/5">Frontend</span> <span class="px-3 py-1 rounded-full text-xs font-medium border border-accent/20 text-accent bg-accent/5">UI/UX</span> <span class="px-3 py-1 rounded-full text-xs font-medium border border-accent/20 text-accent bg-accent/5">Product</span>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section><!-- Projects -->
+  <section id="projects" class="py-20 sm:py-28 px-4 sm:px-6" style="background:linear-gradient(180deg, #0F172A 0%, #111827 100%);">
+   <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16">
+     <p class="text-accent text-sm font-heading font-bold tracking-widest uppercase mb-3">Our Work</p>
+     <h2 class="font-heading text-2xl sm:text-3xl font-bold" style="color:#F8FAFC;">Featured Projects</h2>
+    </div>
+    <div id="projectsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+   </div>
+  </section><!-- Skills -->
+  <section id="skills" class="py-20 sm:py-28 px-4 sm:px-6" style="background:#0F172A;">
+   <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-16">
+     <p class="text-accent text-sm font-heading font-bold tracking-widest uppercase mb-3">Expertise</p>
+     <h2 class="font-heading text-2xl sm:text-3xl font-bold" style="color:#F8FAFC;">Tech Stack</h2>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-8">
+     <div>
+      <h3 class="font-heading text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">Languages</h3>
+      <div class="flex flex-wrap gap-2" id="skillsLang"></div>
+     </div>
+     <div>
+      <h3 class="font-heading text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">Frameworks</h3>
+      <div class="flex flex-wrap gap-2" id="skillsFW"></div>
+     </div>
+     <div>
+      <h3 class="font-heading text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">Tools</h3>
+      <div class="flex flex-wrap gap-2" id="skillsTools"></div>
+     </div>
+    </div>
+   </div>
+  </section><!-- Contact -->
+  <section id="contact" class="py-20 sm:py-28 px-4 sm:px-6" style="background:linear-gradient(180deg, #0F172A 0%, #111827 100%);">
+   <div class="max-w-xl mx-auto">
+    <div class="text-center mb-12">
+     <p class="text-accent text-sm font-heading font-bold tracking-widest uppercase mb-3">Contact</p>
+     <h2 id="contactHeading" class="font-heading text-2xl sm:text-3xl font-bold" style="color:#F8FAFC;">Get In Touch</h2>
+    </div>
+    <form id="contactForm" class="space-y-5">
+     <div><label for="cName" class="block text-sm font-medium text-gray-400 mb-1.5">Name</label> <input id="cName" type="text" required class="w-full px-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition" placeholder="Your name">
+     </div>
+     <div><label for="cEmail" class="block text-sm font-medium text-gray-400 mb-1.5">Email</label> <input id="cEmail" type="email" required class="w-full px-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition" placeholder="you@example.com">
+     </div>
+     <div><label for="cMsg" class="block text-sm font-medium text-gray-400 mb-1.5">Message</label> <textarea id="cMsg" rows="4" required class="w-full px-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition resize-none" placeholder="Tell us about your project..."></textarea>
+     </div><button type="submit" id="submitBtn" class="w-full py-3 rounded-lg font-semibold text-sm text-white transition-all duration-200 hover:scale-[1.02] hover:shadow-lg hover:shadow-accent/25" style="background:#3B82F6;"> Send Message </button>
+     <div id="successMsg" class="hidden text-center py-3 rounded-lg text-sm font-medium text-green-400 bg-green-400/10 border border-green-400/20">
+      ✓ Message sent successfully! We'll get back to you soon.
+     </div>
+    </form>
+   </div>
+  </section><!-- Footer -->
+  <footer class="py-8 px-4 border-t border-white/5 text-center" style="background:#0F172A;">
+   <p class="text-gray-500 text-sm font-body">© 2025 K&amp;A Engineering. Built with precision.</p>
+  </footer><!-- Modal -->
+  <div id="modal" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-4" style="background:rgba(0,0,0,0.7); backdrop-filter:blur(4px);">
+   <div class="modal-content w-full max-w-lg rounded-2xl border border-white/10 p-6 sm:p-8 max-h-[85%] overflow-y-auto" style="background:#1E293B;">
+    <div class="flex items-start justify-between mb-6">
+     <div><span id="modalEmoji" class="text-2xl mb-2 block"></span>
+      <h3 id="modalTitle" class="font-heading font-bold text-xl" style="color:#F8FAFC;"></h3>
+      <p id="modalSummary" class="text-accent text-sm mt-1"></p>
+     </div><button id="modalClose" class="text-gray-400 hover:text-white transition p-1" aria-label="Close modal"> <i data-lucide="x" style="width:20px;height:20px;"></i> </button>
+    </div>
+    <ul id="modalDetails" class="space-y-2.5"></ul>
+   </div>
+  </div>
+  <script>
+const projects = [
+  { emoji:'🧠', title:'Wi-Fi Billing System', summary:'ISP billing and network management platform', details:['FastAPI + PostgreSQL backend','MPESA Daraja API integration (STK Push)','Real-time bandwidth control','Automated PDF invoice generation','Role-based admin dashboard','Dockerized deployment'] },
+  { emoji:'🧾', title:'POS System', summary:'Scalable retail backend system', details:['Modular architecture','Transaction tracking & reporting','Inventory-ready design','Multi-user capable system'] },
+  { emoji:'🤖', title:'AI Trading Bot', summary:'Automated synthetic index trading on Deriv', details:['Built with n8n automation workflows','Trade logging & performance tracking','Auto-switch demo ↔ real accounts','Risk management strategy integration'] },
+  { emoji:'💰', title:'Net Worth Tracker', summary:'Personal finance management app', details:['Tracks assets and liabilities','Persistent session storage','Responsive UI design','Financial insights visualization'] },
+  { emoji:'🎬', title:'AI TikTok Script Generator', summary:'AI-powered viral content generation tool', details:['Script automation using AI APIs','Optimized for engagement and speed','Designed for creators & monetization'] },
+  { emoji:'🔐', title:'Fingerprint Auth System', summary:'Biometric school authentication & attendance', details:['Fingerprint scanning integration','Student identity verification','Attendance logging & tracking','Gate access control system','Backend integration with student portal','Real-time authentication'] }
+];
+
+// Render projects
+const grid = document.getElementById('projectsGrid');
+projects.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'flip-card cursor-pointer';
+  card.style.minHeight = '220px';
+  card.innerHTML = `
+    <div class="flip-inner relative w-full h-full" style="min-height:220px;">
+      <div class="flip-front absolute inset-0 rounded-2xl border border-white/5 p-6 flex flex-col justify-between transition-shadow duration-300 hover:shadow-xl hover:shadow-accent/10" style="background:rgba(248,250,252,0.03);">
+        <div>
+          <span class="text-3xl block mb-3">${p.emoji}</span>
+          <h3 class="font-heading font-bold text-base mb-2" style="color:#F8FAFC;">${p.title}</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">${p.summary}</p>
+        </div>
+        <div class="flex items-center gap-1 text-accent text-xs font-medium mt-4">
+          <span>View Details</span>
+          <i data-lucide="arrow-right" style="width:12px;height:12px;"></i>
+        </div>
+      </div>
+      <div class="flip-back absolute inset-0 rounded-2xl border border-accent/20 p-6 flex flex-col items-center justify-center text-center" style="background:rgba(59,130,246,0.08);">
+        <span class="text-3xl mb-3">${p.emoji}</span>
+        <p class="font-heading font-bold text-sm mb-2" style="color:#F8FAFC;">${p.title}</p>
+        <p class="text-accent text-xs font-medium">Click to explore →</p>
+      </div>
+    </div>`;
+  card.addEventListener('click', () => openModal(i));
+  grid.appendChild(card);
+});
+
+// Modal
+const modal = document.getElementById('modal');
+function openModal(i) {
+  const p = projects[i];
+  document.getElementById('modalEmoji').textContent = p.emoji;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalSummary').textContent = p.summary;
+  const ul = document.getElementById('modalDetails');
+  ul.innerHTML = p.details.map(d => `<li class="flex items-start gap-3 text-sm text-gray-300"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0"></span>${d}</li>`).join('');
+  modal.classList.add('active');
+  lucide.createIcons();
+}
+document.getElementById('modalClose').addEventListener('click', () => modal.classList.remove('active'));
+modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('active'); });
+
+// Skills
+const skills = { Lang:['Python','JavaScript','TypeScript','SQL'], FW:['FastAPI','React','Next.js','Tailwind CSS'], Tools:['Docker','PostgreSQL','Supabase','n8n'] };
+Object.entries(skills).forEach(([key, arr]) => {
+  const el = document.getElementById('skills'+key);
+  el.innerHTML = arr.map(s => `<span class="skill-tag px-3 py-1.5 rounded-lg text-sm font-medium border border-white/10 text-gray-300 cursor-default" style="background:rgba(248,250,252,0.05);">${s}</span>`).join('');
+});
+
+// Mobile menu
+const mobileToggle = document.getElementById('mobileToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+mobileToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+document.querySelectorAll('.mob-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+// Contact form
+document.getElementById('contactForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = 'Send Message';
+    btn.disabled = false;
+    document.getElementById('successMsg').classList.remove('hidden');
+    e.target.reset();
+    setTimeout(() => document.getElementById('successMsg').classList.add('hidden'), 4000);
+  }, 1200);
+});
+
+// Element SDK
+const defaultConfig = {
+  background_color: '#0F172A',
+  surface_color: '#1E293B',
+  text_color: '#F8FAFC',
+  accent_color: '#3B82F6',
+  muted_text_color: '#9CA3AF',
+  font_family: 'Space Mono',
+  font_size: 16,
+  hero_headline: 'Full Stack Engineers & System Builders',
+  hero_subtext: 'We design and build scalable systems, automation pipelines, and real-world applications focused on performance, security, and usability.',
+  kann_title: 'Full-Stack Engineer',
+  ann_title: 'Software Developer',
+  contact_heading: 'Get In Touch'
+};
+
+function applyConfig(config) {
+  const c = { ...defaultConfig, ...config };
+  const font = c.font_family || defaultConfig.font_family;
+  const baseSize = c.font_size || defaultConfig.font_size;
+
+  document.getElementById('heroHeadline').textContent = c.hero_headline;
+  document.getElementById('heroSubtext').textContent = c.hero_subtext;
+  document.getElementById('kannTitle').textContent = c.kann_title;
+  document.getElementById('annTitle').textContent = c.ann_title;
+  document.getElementById('contactHeading').textContent = c.contact_heading;
+
+  document.querySelectorAll('.font-heading').forEach(el => {
+    el.style.fontFamily = `${font}, monospace`;
+  });
+
+  document.getElementById('heroHeadline').style.fontSize = `${baseSize * 2.5}px`;
+  document.getElementById('heroSubtext').style.fontSize = `${baseSize}px`;
+}
+
+window.elementSdk.init({
+  defaultConfig,
+  onConfigChange: async (config) => applyConfig(config),
+  mapToCapabilities: (config) => ({
+    recolorables: [
+      { get: () => config.background_color || defaultConfig.background_color, set: v => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+      { get: () => config.surface_color || defaultConfig.surface_color, set: v => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+      { get: () => config.text_color || defaultConfig.text_color, set: v => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+      { get: () => config.accent_color || defaultConfig.accent_color, set: v => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
+      { get: () => config.muted_text_color || defaultConfig.muted_text_color, set: v => { config.muted_text_color = v; window.elementSdk.setConfig({ muted_text_color: v }); } }
+    ],
+    borderables: [],
+    fontEditable: {
+      get: () => config.font_family || defaultConfig.font_family,
+      set: v => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+    },
+    fontSizeable: {
+      get: () => config.font_size || defaultConfig.font_size,
+      set: v => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+    }
+  }),
+  mapToEditPanelValues: (config) => new Map([
+    ['hero_headline', config.hero_headline || defaultConfig.hero_headline],
+    ['hero_subtext', config.hero_subtext || defaultConfig.hero_subtext],
+    ['kann_title', config.kann_title || defaultConfig.kann_title],
+    ['ann_title', config.ann_title || defaultConfig.ann_title],
+    ['contact_heading', config.contact_heading || defaultConfig.contact_heading]
+  ])
+});
+
+lucide.createIcons();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f2843bf85ea65ed',t:'MTc3NzIzNDU4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
